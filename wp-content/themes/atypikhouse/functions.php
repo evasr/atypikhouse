@@ -9,6 +9,7 @@ add_theme_support( 'title-tag' );
 function register_my_menu() {
     register_nav_menu('header-menu',__( 'Header Menu' ));
     register_nav_menu('topbar-menu',__( 'Top Bar Menu' ));
+    register_nav_menu('footer-menu',__( 'Top Bar Menu' ));
 }
 add_action( 'init', 'register_my_menu' );
 
@@ -51,3 +52,5 @@ function capitaine_register_assets() {
     );
 }
 add_action( 'wp_enqueue_scripts', 'capitaine_register_assets' );
+
+require 'methods/debug.php';
