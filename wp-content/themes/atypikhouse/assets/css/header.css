@@ -1,0 +1,97 @@
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--global-font-primary);
+}
+
+.main-header .container > a {
+    display: block;
+}
+
+.main-header .container > a img {
+    width: 200px;
+}
+
+.main-header .menu-menu-principal-container {
+    display: flex;
+    align-items: center;
+}
+
+.main-header #menu-menu-principal {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.main-header #menu-menu-principal li {
+    margin: 0 10px;
+}
+
+.main-header #menu-menu-principal li a {
+    padding: 0 10px;
+    position: relative;
+    display: block;
+    margin-left: 20px;
+    color: var(--global-color-text);
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.main-header #menu-menu-principal li a::before {
+    position: absolute;
+    bottom: 0;
+    left: -20px;
+    /* transform: translateY(-50%); */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--global-color-accent);
+}
+
+.main-header #menu-menu-principal li.hebergements a::before {
+    content: "\f6bb";
+}
+
+.main-header #menu-menu-principal li.destinations a::before {
+    content: "\f3c5";
+}
+
+.main-header #menu-menu-principal li.devenir-hote a::before {
+    content: "\f084";
+}
+
+.main-header #menu-menu-principal li.qui-sommes-nous a::before {
+    content: "\f0c0";
+}
+
+.main-header #menu-menu-principal li a:hover::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    height: 1px;
+    background-color: var(--global-color-text);
+}
+
+.header .top-bar {
+    background-color: #ececec;
+}
+
+.header .top-bar .left ul {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.header .top-bar .left a {
+    color: var(--global-color-text);
+    text-decoration: none;
+    padding: 0 10px;
+    font-size: 14px;
+}

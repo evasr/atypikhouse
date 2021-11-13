@@ -1,0 +1,22 @@
+:root {
+    --global-color-text: #000;
+    --global-color-accent: #7C8F40;
+
+    --global-font-text: "Praxinext", sans-serif;
+    --global-font-primary: "Congenial", sans-serif;
+}
+
+@import url("https://use.typekit.net/nul1wto.css");
+
+html, body {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: var(--global-font-text);
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+}
