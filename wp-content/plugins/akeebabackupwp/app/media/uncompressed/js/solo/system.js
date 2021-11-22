@@ -274,6 +274,78 @@ akeeba.System.modalErrorHandler = function (error)
     });
 };
 
+akeeba.System.extractResponse = function(msg)
+{
+    var ret = {
+        isValid:     false,
+        data: null
+    };
+
+    // Format: delimiter => needsHtmlDecode
+    var delimiters = {
+        '#"\\#\\"#': false,
+        '#&#x22;\\#\\&#x22;#': true,
+        '#&#34;\\#\\&#34;#': true,
+        '###': false
+    }
+
+    for (var token_string in delimiters)
+    {
+        var needsHtmlDecode = delimiters[token_string];
+        var valid_pos = msg.indexOf(token_string);
+        var junk = '';
+        var message = '';
+
+        // If this delimiter is not found move over to the next one
+        if (valid_pos === -1)
+        {
+            continue;
+        }
+
+        // Remove the junk BEFORE the delimiter in front of the response.
+        message = valid_pos !== 0 ? msg.substr(valid_pos) : msg;
+        // Remove the delimiter in front of the response
+        message = message.substr(token_string.length);
+        // Get of rid of any junk after the data
+        valid_pos = message.lastIndexOf(token_string);
+
+        // If the delimiter is not found at the end of the data move over to the next delimiter
+        if (valid_pos === -1)
+        {
+            continue;
+        }
+
+        // Remove the delimiter at the end of the data and anything after it.
+        message = message.substr(0, valid_pos);
+
+        // Do I need to HTML decode the JSON–encoded message?
+        if (needsHtmlDecode)
+        {
+            var dummyTextbox = document.createElement("textarea");
+
+            dummyTextbox.innerHTML = message;
+            message                = dummyTextbox.innerText;
+        }
+
+        // Let's try to decode the message
+        try
+        {
+            var data = JSON.parse(message);
+        }
+        catch (err)
+        {
+            continue;
+        }
+
+        ret.isValid = true;
+        ret.data    = data;
+
+        return ret;
+    }
+
+    return ret;
+}
+
 /**
  * Performs an AJAX request and returns the parsed JSON output.
  * akeeba.System.params.AjaxURL is used as the AJAX proxy URL.
@@ -285,8 +357,9 @@ akeeba.System.modalErrorHandler = function (error)
  * @param  {function} [errorCallback] - A function accepting a single string parameter, called on failure
  * @param  {Boolean} [useCaching=true] - Should we use the cache?
  * @param  {Number} [timeout=60000] - Timeout before cancelling the request in milliseconds
+ * @param  {Boolean} [oldToken=false] - Ignored
  */
-akeeba.System.doAjax = function (data, successCallback, errorCallback, useCaching, timeout)
+akeeba.System.doAjax = function (data, successCallback, errorCallback, useCaching, timeout, oldToken)
 {
     if (useCaching == null)
     {
@@ -321,14 +394,9 @@ akeeba.System.doAjax = function (data, successCallback, errorCallback, useCachin
                 timeout: timeout,
                 success: function (msg)
                          {
-                             // Initialize
-                             var junk    = null;
-                             var message = "";
+                             var extracted = akeeba.System.extractResponse(msg);
 
-                             // Get rid of junk before the data
-                             var valid_pos = msg.indexOf('#"\\#\\"#');
-
-                             if (valid_pos == -1)
+                             if (!extracted.isValid)
                              {
                                  // Valid data not found in the response
                                  msg = akeeba.System.sanitizeErrorMessage(msg);
@@ -348,49 +416,9 @@ akeeba.System.doAjax = function (data, successCallback, errorCallback, useCachin
 
                                  return;
                              }
-                             else if (valid_pos != 0)
-                             {
-                                 // Data is prefixed with junk
-                                 junk    = msg.substr(0, valid_pos);
-                                 message = msg.substr(valid_pos);
-                             }
-                             else
-                             {
-                                 message = msg;
-                             }
-
-                             message = message.substr(7); // Remove starting token
-
-                             // Get of rid of junk after the data
-                             valid_pos = message.lastIndexOf('#"\\#\\"#');
-                             message   = message.substr(0, valid_pos); // Remove ending token
-
-                             try
-                             {
-                                 var data = JSON.parse(message);
-                             }
-                             catch (err)
-                             {
-                                 message = akeeba.System.sanitizeErrorMessage(message);
-                                 msg     = err.message + "\n<br/>\n<pre>\n" + message + "\n</pre>";
-
-                                 if (errorCallback == null)
-                                 {
-                                     if (akeeba.System.params.errorCallback != null)
-                                     {
-                                         akeeba.System.params.errorCallback(msg);
-                                     }
-                                 }
-                                 else
-                                 {
-                                     errorCallback(msg);
-                                 }
-
-                                 return;
-                             }
 
                              // Call the callback function
-                             successCallback(data);
+                             successCallback(extracted.data);
                          },
                 error:   function (Request, textStatus, errorThrown)
                          {
@@ -1395,10 +1423,11 @@ akeeba.System.Text = {
  * @param  {function} [errorCallback]   - A function accepting a single string parameter, called on failure
  * @param  {Boolean}  [useCaching=true] - Should we use the cache?
  * @param  {Number}   [timeout=60000]   - Timeout before cancelling the request (default 60s)
+ * @param  {Boolean}  [oldToken=false]  - Should I search for the old token instead of the new one?
  *
  * @return
  */
-akeeba.System.doEncryptedAjax = function (data, successCallback, errorCallback, useCaching, timeout)
+akeeba.System.doEncryptedAjax = function (data, successCallback, errorCallback, useCaching, timeout, oldToken)
 {
     var url = akeeba.System.getOptions("akeeba.System.params.AjaxURL", akeeba.System.params.AjaxURL);
 
@@ -1421,7 +1450,7 @@ akeeba.System.doEncryptedAjax = function (data, successCallback, errorCallback, 
         post_data.password = password;
     }
 
-    return akeeba.System.doAjax(post_data, successCallback, errorCallback, useCaching, timeout);
+    return akeeba.System.doAjax(post_data, successCallback, errorCallback, useCaching, timeout, oldToken);
 };
 
 /**

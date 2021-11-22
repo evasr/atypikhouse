@@ -8,7 +8,6 @@
 namespace Akeeba\Engine\Platform;
 
 use Akeeba\Engine\Factory;
-use Akeeba\Engine\Finalization\TestExtract;
 use Akeeba\Engine\Platform;
 use Awf\Application\Application;
 use Psr\Log\LogLevel;
@@ -38,21 +37,6 @@ class Wordpress extends Base
 	 * @var   int|null
 	 */
 	public static $profile_id = null;
-
-	function __construct()
-	{
-		$configOverrides = array();
-
-		$configOverrides['volatile.core.finalization.action_handlers'] = array(
-			new TestExtract()
-		);
-		$configOverrides['volatile.core.finalization.action_queue_before'] = array(
-			'test_extract',
-		);
-
-		// Apply the configuration overrides, please
-		$this->configOverrides = $configOverrides;
-	}
 
 	/**
 	 * Performs heuristics to determine if this platform object is the ideal

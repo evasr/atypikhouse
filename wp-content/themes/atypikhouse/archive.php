@@ -30,4 +30,5 @@
     debug($terms);
 
 	endwhile; endif; ?>
+    <?php wp_nav_menu( array( 'theme_location' => '-menu' ) ); ?>
 <?php get_footer(); ?>

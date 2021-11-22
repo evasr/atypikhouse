@@ -29,71 +29,69 @@
   overflow-y: auto;
 }
 
-.folder-container {
-  background-color: $white;
-  height: 2em;
-  padding: 1px;
-  color: $grey;
-  font-weight: normal;
-  border-bottom: 1px solid lighten($teal, 10%);
+.folder-header, .file-header {
+  margin-bottom: .5em !important;
 
-  span.folder-padding {
-    float: left;
-    cursor: pointer;
-    border: none;
-    margin-right: 4px;
-    width: 2.6em;
-    height: 16px;
-    display: block;
-  }
+  .folder-name, .file-name {
+    color: lighten($grey, 20%) !important;
+    cursor: unset !important;
 
-  span.folder-up {
-    cursor: pointer !important;
-    
-    span.ui-icon {
-      float: left;
+    &:hover {
+      color: unset !important;
     }
   }
+}
 
-  span.folder-icon-container {
-    float: left;
-    /*cursor: pointer; */
-    border: none;
-    margin-right: 4px;
+.folder-container {
+  &:nth-of-type(2n) {
+    background-color: rgba(0,100,128,0.05);
   }
 
-  span.folder-name {
-    padding-left: 4px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: start;
+
+  .folder-name {
+    flex-grow: 1;
+    margin: 0 .25em;
+    color: $grey;
     cursor: pointer;
 
     &:hover {
-      font-weight: bold;
-      color: $red;
+      color: $teal;
     }
   }
 
-  .btn-danger {
+  .btn-danger, .akeeba-btn--red {
     cursor: not-allowed !important;
+  }
+
+  &+.folder-container {
+    margin-bottom: .25em;
   }
 }
 
 .file-container {
-  background-color: $white;
-  height: 2em;
-  padding: 1px;
-  color: $grey;
-  font-weight: normal;
-  border-bottom: 1px solid lighten($teal, 10%);
-
-  span.file-icon-container {
-    float: left;
-    /*cursor: pointer;*/
-    border: none;
-    margin-right: 4px;
+  &:nth-of-type(2n) {
+    background-color: rgba(0,100,128,0.05);
   }
 
-  span.file-name {
-    padding-left: 4px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: start;
+
+  .file-icon-container {
+    flex-shrink: 1;
+  }
+
+  .file-name {
+    flex-grow: 1;
+    padding: 0 .25em;
+
+    color: $grey;
+    font-weight: normal;
   }
 
   span.file-clickable {
@@ -106,44 +104,20 @@
   }
 
   span.file-size {
-    display: block;
-    float: right;
+    flex-shrink: 0;
+    flex-basis: 5em;
+    text-align: right;
+    color: lighten($grey, 20%);
   }
 
-  .btn-danger {
+  .btn-danger, .akeeba-btn--red {
     cursor: not-allowed !important;
   }
-}
 
-
-.file-header {
-  margin: 10px 0;
-
-  &.file-container {
-    span.file-name {
-      font-style: italic;
-      padding-left: 20px
-    }
+  &+.file-container {
+    margin-bottom: .25em;
   }
 }
-
-.folder-header {
-  margin: 10px 0;
-
-  &.folder-container {
-    span.folder-name {
-      font-style: italic;
-      padding-left: 20px;
-
-      &:hover {
-        color: $grey;
-        font-weight: normal;
-        cursor: default;
-      }
-    }
-  }
-}
-
 
 #ak_list_container {
   padding: 4px;

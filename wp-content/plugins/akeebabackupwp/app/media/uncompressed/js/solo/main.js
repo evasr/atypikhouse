@@ -54,39 +54,14 @@ akeeba.ControlPanel.getUpdateInformation = function (updateInformationUrl)
         type:    "GET",
         success: function (msg)
                  {
-                     // Initialize
-                     var junk    = null;
-                     var message = msg;
+                     var extracted = akeeba.System.extractResponse(msg);
 
-                     // Get rid of junk before the data
-                     var valid_pos = msg.indexOf('#"\\#\\"#');
-
-                     if (valid_pos == -1)
+                     if (!extracted.isValid)
                      {
                          return;
                      }
 
-                     if (valid_pos != 0)
-                     {
-                         // Data is prefixed with junk
-                         message = msg.substr(valid_pos);
-                     }
-
-                     message = message.substr(7); // Remove starting token
-
-                     // Get of rid of junk after the data
-                     valid_pos = message.lastIndexOf('#"\\#\\"#');
-                     message   = message.substr(0, valid_pos); // Remove ending token
-
-                     try
-                     {
-                         var data = JSON.parse(message);
-                     }
-                     catch (err)
-                     {
-                         return;
-                     }
-
+                     var data              = extracted.data;
                      var elUpdateContainer = document.getElementById("soloUpdateContainer");
                      var elUpdateIcon      = document.getElementById("soloUpdateIcon");
 
@@ -200,7 +175,8 @@ akeeba.ControlPanel.warnAboutAdBlocker = function ()
 // Initialization
 akeeba.System.documentReady(function ()
 {
-    akeeba.System.addEventListener("comAkeebaControlPanelProfileSwitch", "change", function() {
+    akeeba.System.addEventListener("comAkeebaControlPanelProfileSwitch", "change", function ()
+    {
         document.forms.profileForm.submit();
     });
 

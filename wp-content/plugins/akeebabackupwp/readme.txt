@@ -5,7 +5,7 @@ Tags: backup, restore, migrate, move
 Requires at least: 3.8.0
 Tested up to: 4.5
 Requires PHP: 5.4
-Stable tag: 7.5.13
+Stable tag: 7.5.14
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -179,6 +179,14 @@ link on our site to request more information for your specific needs.
 7. Want to automate your backups? Akeeba Backup will give you step by step instructions, specific to your site.
 
 == Changelog ==
+
+* eeba Backup 7.5.14
+* Removed iDriveSync; the service has been discontinued by the provider.
+* Removed the “Archive integrity check” feature.
+* Dropbox connector updated to require TLS v1.2
+* Work around servers messing up the AJAX responses
+* Improved the display of the files and folders filters page
+* [MEDIUM] Possible exception on Files and Directories Filters page under PHP 8
 
 * eeba Backup 7.5.13
 * Remove dash from automatically generated random values for archive naming

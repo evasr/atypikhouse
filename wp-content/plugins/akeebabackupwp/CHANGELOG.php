@@ -1,4 +1,13 @@
 <?php die(); ?>
+Akeeba Backup 7.5.14
+================================================================================
+- Removed iDriveSync; the service has been discontinued by the provider.
+- Removed the “Archive integrity check” feature.
+~ Dropbox connector updated to require TLS v1.2
+~ Work around servers messing up the AJAX responses
+~ Improved the display of the files and folders filters page
+# [MEDIUM] Possible exception on Files and Directories Filters page under PHP 8
+
 Akeeba Backup 7.5.13
 ================================================================================
 ~ Remove dash from automatically generated random values for archive naming

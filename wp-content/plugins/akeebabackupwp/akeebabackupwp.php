@@ -3,7 +3,7 @@
 Plugin Name: Akeeba Backup for WordPress
 Plugin URI: https://www.akeeba.com
 Description: The complete backup solution for WordPress
-Version: 7.5.13
+Version: 7.5.14
 Author: Akeeba Ltd
 Author URI: https://www.akeeba.com
 Network: true

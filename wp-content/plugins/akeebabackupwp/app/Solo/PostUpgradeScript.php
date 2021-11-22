@@ -231,6 +231,11 @@ class PostUpgradeScript
 
 		// Changelog PNG images
 		'media/image/changelog.png',
+
+		// Remove iDriveSync — the service has been discontinued
+		'Solo/engine/Postproc/idrivesync.json',
+		'Solo/engine/Postproc/Idrivesync.php',
+		'Solo/engine/Postproc/Connector/Idrivesync.php',
 	];
 
 	/**
@@ -301,6 +306,9 @@ class PostUpgradeScript
 		// Obsolete jQuery stuff
 		'media/js/datepicker',
 		'media/js/dist',
+
+		// Removed the “Archive integrity check” feature.
+		'Solo/Platform/Solo/Finalization'
 	];
 
 	/**

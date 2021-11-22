@@ -283,7 +283,8 @@ akeeba.Update.pingExtract = function ()
     {
         document.getElementById("extractProgress").style.display  = "none";
         document.getElementById("extractPingError").style.display = "block";
-    });
+    },
+        true, 60000, true);
 };
 
 akeeba.Update.startExtract = function ()
@@ -298,7 +299,12 @@ akeeba.Update.startExtract = function ()
     akeeba.System.doEncryptedAjax(post, function (data)
     {
         akeeba.Update.stepExtract(data);
-    });
+    },
+        null,
+        true,
+        60000,
+        true
+    );
 };
 
 akeeba.Update.stepExtract = function (data)
@@ -385,7 +391,12 @@ akeeba.Update.stepExtract = function (data)
         akeeba.System.doEncryptedAjax(post, function (data)
         {
             akeeba.Update.stepExtract(data);
-        });
+        },
+            null,
+            true,
+            60000,
+            true
+        );
     }
 };
 
@@ -396,7 +407,12 @@ akeeba.Update.finalizeUpdate = function ()
     akeeba.System.doEncryptedAjax(post, function (data)
     {
         window.location = akeeba.System.getOptions("akeeba.Update.finaliseUrl");
-    });
+    },
+        null,
+        true,
+        60000,
+        true
+    );
 };
 
 
